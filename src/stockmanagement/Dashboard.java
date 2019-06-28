@@ -5,6 +5,14 @@
  */
 package stockmanagement;
 
+
+//import com.mysql.jdbc.Connection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.*;
+import java.sql.*;
+
+
 /**
  *
  * @author Yasas
@@ -14,8 +22,29 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
+    
+    
     public Dashboard() {
         initComponents();
+        connect();
+    }
+    
+    
+    public Connection connect(){
+        Connection con = null;
+        
+        try{
+            Class.forName("com.mysql.jdbc.Driver");  
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Stockmanagement","root","");
+            JOptionPane.showMessageDialog(null, "Connected");
+            return con;
+        } catch (SQLException e) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE,null,e);
+            return null;
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
 
     /**
