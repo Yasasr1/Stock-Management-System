@@ -32,11 +32,13 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
               <Component id="addItem" min="-2" pref="104" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="179" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="101" max="-2" attributes="0"/>
               <Component id="removeItem" min="-2" pref="104" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="204" max="-2" attributes="0"/>
-              <Component id="generateReport" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="174" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="102" max="-2" attributes="0"/>
+              <Component id="displayPieChart" min="-2" pref="91" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="75" max="-2" attributes="0"/>
+              <Component id="getSummary" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="188" max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
@@ -54,7 +56,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="addItem" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   <Component id="removeItem" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  <Component id="generateReport" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="getSummary" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                  <Component id="displayPieChart" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
           </Group>
@@ -190,10 +193,21 @@
         <Property name="text" type="java.lang.String" value="Remove item"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="generateReport">
+    <Component class="javax.swing.JButton" name="getSummary">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Generate Report"/>
+        <Property name="text" type="java.lang.String" value="Get summary"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="getSummaryActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="displayPieChart">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Pie Chart"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="displayPieChartActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

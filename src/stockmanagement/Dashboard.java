@@ -7,12 +7,18 @@ package stockmanagement;
 
 
 //import com.mysql.jdbc.Connection;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import javax.swing.table.*;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.data.general.DefaultPieDataset;
 
 
 
@@ -123,7 +129,8 @@ public class Dashboard extends javax.swing.JFrame {
         retriveStock = new javax.swing.JButton();
         addItem = new javax.swing.JButton();
         removeItem = new javax.swing.JButton();
-        generateReport = new javax.swing.JButton();
+        getSummary = new javax.swing.JButton();
+        displayPieChart = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 255, 51));
@@ -184,7 +191,19 @@ public class Dashboard extends javax.swing.JFrame {
 
         removeItem.setText("Remove item");
 
-        generateReport.setText("Generate Report");
+        getSummary.setText("Get summary");
+        getSummary.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                getSummaryActionPerformed(evt);
+            }
+        });
+
+        displayPieChart.setText("Pie Chart");
+        displayPieChart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayPieChartActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -193,11 +212,13 @@ public class Dashboard extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(addItem, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(179, 179, 179)
+                .addGap(101, 101, 101)
                 .addComponent(removeItem, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(204, 204, 204)
-                .addComponent(generateReport)
-                .addGap(174, 174, 174))
+                .addGap(102, 102, 102)
+                .addComponent(displayPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(75, 75, 75)
+                .addComponent(getSummary)
+                .addGap(188, 188, 188))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -212,12 +233,61 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(removeItem, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(generateReport, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(getSummary, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(displayPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(38, 38, 38))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void getSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getSummaryActionPerformed
+        SummaryWindow sm = new SummaryWindow();
+        sm.setVisible(true);
+    }//GEN-LAST:event_getSummaryActionPerformed
+
+    private void displayPieChartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayPieChartActionPerformed
+        
+        Connection con = connect();
+        String query = "SELECT item_code,quantity from stock";
+        
+        DefaultPieDataset pieDataset = new DefaultPieDataset();
+        
+        Statement stmt;
+        ResultSet rs;
+        
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            
+            String item_code;
+            int quantity;
+            
+            while(rs.next())
+            {
+                item_code = rs.getString("item_code");
+                quantity = rs.getInt("quantity");
+                pieDataset.setValue(item_code, new Integer(quantity));
+                
+            }
+            
+       JFreeChart chart = ChartFactory.createPieChart("Stock Summary",pieDataset,true,true,true);
+       PiePlot p = (PiePlot)chart.getPlot();
+ 
+       ChartFrame frame = new ChartFrame("Stock Summary",chart);
+       frame.setVisible(true);
+       frame.setSize(450,500);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    
+        
+   
+    }//GEN-LAST:event_displayPieChartActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,7 +327,8 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItem;
     private javax.swing.JButton addStock;
-    private javax.swing.JButton generateReport;
+    private javax.swing.JButton displayPieChart;
+    private javax.swing.JButton getSummary;
     private javax.swing.JTable item_table;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
