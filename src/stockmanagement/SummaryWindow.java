@@ -5,6 +5,15 @@
  */
 package stockmanagement;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 
 
 /**
@@ -18,6 +27,57 @@ public class SummaryWindow extends javax.swing.JFrame {
      */
     public SummaryWindow() {
         initComponents();
+        showLog();
+    }
+    
+    
+    //add the items to arraylist 
+    public ArrayList<Log> getLogList(){
+        ArrayList<Log> logList = new ArrayList<Log>();
+        DatabaseCon connection = new DatabaseCon();
+        Connection con = connection.connect();
+        String query = "SELECT * from log";
+        
+        Statement stmt;
+        ResultSet rs;
+        
+        try {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(query);
+            
+            Log log;
+            
+            while(rs.next())
+            {
+                log = new Log(rs.getString("item_code"),rs.getString("quantity"),rs.getString("date"),rs.getString("isadd"));
+                logList.add(log);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return logList;
+        
+    }
+    
+    //populating the Jtable
+    public void showLog(){
+        ArrayList<Log> list = getLogList();
+        DefaultTableModel model = (DefaultTableModel)log_table.getModel();
+        
+        Object[] row = new Object[7];
+        for(int i = 0; i<list.size(); i++)
+        {
+            row[0] = list.get(i).getCode();
+            row[1] = list.get(i).getQuantity();
+            row[2] = list.get(i).getDate();
+            row[3] = list.get(i).getAdded();
+            
+            model.addRow(row);
+            
+            
+        }
     }
 
     /**
@@ -30,20 +90,38 @@ public class SummaryWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        log_table = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 255, 255));
 
+        log_table.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null}
+            },
+            new String [] {
+                "Item code", "Quantity", "Date", "Action"
+            }
+        ));
+        jScrollPane1.setViewportView(log_table);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 272, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(50, 50, 50))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -51,16 +129,16 @@ public class SummaryWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(92, 92, 92)
+                .addGap(64, 64, 64)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(59, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         pack();
@@ -107,5 +185,7 @@ public class SummaryWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable log_table;
     // End of variables declaration//GEN-END:variables
 }
