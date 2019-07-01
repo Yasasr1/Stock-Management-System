@@ -27,7 +27,7 @@ public class DatabaseCon {
         try{
             Class.forName("com.mysql.jdbc.Driver");  
             con = DriverManager.getConnection(url,username,password);
-            JOptionPane.showMessageDialog(null, "Connected");
+            //JOptionPane.showMessageDialog(null, "Connected");
             return con;
         } catch (SQLException e) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE,null,e);

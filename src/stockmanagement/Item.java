@@ -10,13 +10,13 @@ package stockmanagement;
  * @author Yasas
  */
 public class Item {
-    String item_code;
-    String type;
-    String name;
-    int quantity;
-    String supplier;
-    int reorder_level;
-    float price;
+   private String item_code;
+   private String type;
+   private String name;
+   private int quantity;
+   private String supplier;
+   private int reorder_level;
+   private float price;
     
     Item(String item_code,String type,String name,int quantity,String supplier,int reorder_level,float price)
     {
