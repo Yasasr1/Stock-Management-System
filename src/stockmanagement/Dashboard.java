@@ -25,7 +25,7 @@ import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
- * @author Yasas
+ * @author Yasasr1
  */
 public class Dashboard extends javax.swing.JFrame {
 
@@ -38,6 +38,7 @@ public class Dashboard extends javax.swing.JFrame {
         initComponents();
         ShowItems();
         displayCapasity();
+        //kk
         
     }
     
