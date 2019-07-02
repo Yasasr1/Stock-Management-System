@@ -36,34 +36,42 @@ public class Dashboard extends javax.swing.JFrame {
     
     public Dashboard() {
         initComponents();
-        //connect();
         ShowItems();
+        displayCapasity();
         
     }
     
     
-   /* public Connection connect(){
-        Connection con = null;
-        
-        try{
-            Class.forName("com.mysql.jdbc.Driver");  
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/Stockmanagement","root","");
-            JOptionPane.showMessageDialog(null, "Connected");
-            return con;
-        } catch (SQLException e) {
-            Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE,null,e);
-            return null;
-        } catch (ClassNotFoundException ex) {
+
+    
+    public void displayCapasity()
+    {
+        double total = 0;
+        double stockCapacity = 1000;
+        float percentage =0;
+        try {
+            DatabaseCon connect = new DatabaseCon();
+            Connection con = connect.connect();
+            Statement stmt = con.createStatement();
+            String query = "SELECT quantity FROM stock";
+            ResultSet rs = stmt.executeQuery(query);
+           
+           while(rs.next())
+           {
+               total = total + rs.getInt("quantity");
+           }
+           
+           
+           percentage = (float)((total*100)/stockCapacity);
+           System.out.println(total + " " + percentage);
+           capacity.setText(Float.toString(percentage));
+           
+            
+            
+        } catch (SQLException ex) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
         }
         
-        
-    }*/
-    
-    public void test()
-    {
-        System.out.println("Called");
     }
     
     //add the items to arraylist 
@@ -134,6 +142,9 @@ public class Dashboard extends javax.swing.JFrame {
         item_table = new javax.swing.JTable();
         addStock = new javax.swing.JButton();
         retriveStock = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        capacity = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         addItem = new javax.swing.JButton();
         removeItem = new javax.swing.JButton();
         getSummary = new javax.swing.JButton();
@@ -146,7 +157,7 @@ public class Dashboard extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 255, 51));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 204));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Current Stock\n"));
 
         item_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -168,7 +179,7 @@ public class Dashboard extends javax.swing.JFrame {
         jScrollPane2.setViewportView(item_table);
 
         addStock.setBackground(new java.awt.Color(51, 255, 0));
-        addStock.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        addStock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         addStock.setForeground(new java.awt.Color(255, 255, 255));
         addStock.setText("Add Stock");
         addStock.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +189,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         retriveStock.setBackground(new java.awt.Color(255, 0, 0));
-        retriveStock.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        retriveStock.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         retriveStock.setForeground(new java.awt.Color(255, 255, 255));
         retriveStock.setText("Retrive Stock");
         retriveStock.addActionListener(new java.awt.event.ActionListener() {
@@ -187,31 +198,63 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 153));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Stock Capasity"));
+
+        capacity.setEditable(false);
+
+        jLabel2.setText("% Full");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(capacity, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(capacity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(117, 117, 117)
-                .addComponent(retriveStock, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(367, 367, 367))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(41, 41, 41)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 929, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(79, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(91, 91, 91)
+                .addComponent(retriveStock, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(219, 219, 219)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(retriveStock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(29, 29, 29))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(addStock, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(retriveStock, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(29, 29, 29))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         addItem.setText("Add new item");
@@ -223,7 +266,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         removeItem.setText("Remove item");
 
-        getSummary.setText("Get summary");
+        getSummary.setText("Stock Movements");
         getSummary.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 getSummaryActionPerformed(evt);
@@ -292,9 +335,9 @@ public class Dashboard extends javax.swing.JFrame {
                         .addComponent(removeItem, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(102, 102, 102)
                         .addComponent(displayPieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
+                        .addGap(73, 73, 73)
                         .addComponent(getSummary)
-                        .addGap(188, 188, 188))))
+                        .addGap(190, 190, 190))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -318,7 +361,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGap(38, 38, 38))
         );
 
-        setBounds(200, 100, 1095, 626);
+        setBounds(200, 100, 1095, 672);
     }// </editor-fold>//GEN-END:initComponents
 
     private void getSummaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_getSummaryActionPerformed
@@ -431,13 +474,16 @@ public class Dashboard extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItem;
     private javax.swing.JButton addStock;
+    private javax.swing.JTextField capacity;
     private javax.swing.JButton displayPieChart;
     private javax.swing.JButton getSummary;
     private javax.swing.JTable item_table;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton removeItem;
     private javax.swing.JButton retriveStock;
