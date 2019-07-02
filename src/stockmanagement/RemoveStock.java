@@ -197,6 +197,7 @@ public class RemoveStock extends javax.swing.JFrame {
         Statement stmt2 = con.createStatement();
         stmt1.executeUpdate("UPDATE stock SET quantity=quantity-'"+item_quantity+"' WHERE item_code='"+item_code+"'");
         stmt2.executeUpdate("INSERT into log(item_code,quantity,date,isadd) values('"+item_code+"','"+item_quantity+"','"+date+"','"+action+"')");
+        JOptionPane.showMessageDialog(null, "Stock retrieved successfully");
         
         }catch(NullPointerException e){
             System.out.println(e);

@@ -64,7 +64,6 @@ public class Dashboard extends javax.swing.JFrame {
            
            
            percentage = (float)((total*100)/stockCapacity);
-           System.out.println(total + " " + percentage);
            capacity.setText(Float.toString(percentage));
            
             
@@ -266,6 +265,11 @@ public class Dashboard extends javax.swing.JFrame {
         });
 
         removeItem.setText("Remove item");
+        removeItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeItemActionPerformed(evt);
+            }
+        });
 
         getSummary.setText("Stock Movements");
         getSummary.addActionListener(new java.awt.event.ActionListener() {
@@ -436,6 +440,12 @@ public class Dashboard extends javax.swing.JFrame {
         this.setVisible(false);
         rs.setVisible(true);
     }//GEN-LAST:event_retriveStockActionPerformed
+
+    private void removeItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeItemActionPerformed
+        RemoveItem ri = new RemoveItem();
+        this.setVisible(false);
+        ri.setVisible(true);
+    }//GEN-LAST:event_removeItemActionPerformed
 
     /**
      * @param args the command line arguments
