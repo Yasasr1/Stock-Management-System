@@ -18,16 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class DatabaseCon {
     Connection con;
-    String url = "jdbc:mysql://localhost:3306/Stockmanagement";
-    String username = "root";
-    String password = "";
+    private String url = "jdbc:mysql://localhost:3306/Stockmanagement";
+    private String username = "root";
+    private String password = "";
     
     public Connection connect(){
         
         try{
             Class.forName("com.mysql.jdbc.Driver");  
-            con = DriverManager.getConnection(url,username,password);
-            //JOptionPane.showMessageDialog(null, "Connected");
+            con = DriverManager.getConnection(this.url,this.username,this.password);
             return con;
         } catch (SQLException e) {
             Logger.getLogger(Dashboard.class.getName()).log(Level.SEVERE,null,e);

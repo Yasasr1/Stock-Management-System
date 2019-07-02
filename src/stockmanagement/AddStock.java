@@ -5,9 +5,11 @@
  */
 package stockmanagement;
 
+import java.awt.HeadlessException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 
@@ -325,9 +327,13 @@ public class AddStock extends javax.swing.JFrame {
 
             
         }
-        catch(Exception e){
-            System.out.println("exectiopng is :" + e);
+        catch(HeadlessException | NumberFormatException | NullPointerException e){
+            System.out.println(e);
             JOptionPane.showMessageDialog(null, "Please fill all input fields");
+        }
+        catch(SQLException e){
+            System.out.println(e);
+            JOptionPane.showMessageDialog(null, "SQL error");
         }
     
     }//GEN-LAST:event_AddStockActionPerformed

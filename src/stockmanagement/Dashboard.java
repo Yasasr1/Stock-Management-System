@@ -388,7 +388,9 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_addItemActionPerformed
 
     private void retriveStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_retriveStockActionPerformed
-      
+        RemoveStock rs = new RemoveStock();
+        this.setVisible(false);
+        rs.setVisible(true);
     }//GEN-LAST:event_retriveStockActionPerformed
 
     /**

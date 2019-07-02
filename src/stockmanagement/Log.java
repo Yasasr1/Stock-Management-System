@@ -10,10 +10,10 @@ package stockmanagement;
  * @author Yasas
  */
 public class Log {
-    String item_code;
-    String quantity;
-    String date;
-    String isAdded;
+    private String item_code;
+    private String quantity;
+    private String date;
+    private String isAdded;
 
 
 Log(String code,String qu,String da,String added)
